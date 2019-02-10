@@ -24,10 +24,46 @@ testAll: dominion.o testSuite.c
 interface.o: interface.h interface.c
 	gcc -c interface.c -g  $(CFLAGS)
 
+unittestresults: unittest1.c unittest2.c unittest3.c unittest4.c cardtest1.c cardtest2.c cardtest3.c cardtest4.c dominion.o rngs.o
+	echo "Results for running Unit Tests:" >> unittestresults.out
+	echo "unittest1.c:" >> unittestresults.out
+	gcc -o unittest1 -g dominion.o rngs.o unittest1.c -lm $(CFLAGS)
+	./unittest1 >> unittestresults.out
+	
+	echo "unittest2.c:" >> unittestresults.out
+	gcc -o unittest2 -g dominion.o rngs.o unittest2.c -lm $(CFLAGS)
+	./unittest2 >> unittestresults.out
+	
+	echo "unittest3.c:" >> unittestresults.out
+	gcc -o unittest3 -g dominion.o rngs.o unittest3.c -lm $(CFLAGS)
+	./unittest3 >> unittestresults.out
+
+	echo "unittest4.c:" >> unittestresults.out
+	gcc -o unittest4 -g dominion.o rngs.o unittest4.c -lm $(CFLAGS)
+	./unittest4 >> unittestresults.out
+	
+	echo "cardtest1.c:" >> unittestresults.out
+	gcc -o cardtest1 -g dominion.o rngs.o cardtest1.c -lm $(CFLAGS)
+	./cardtest1 >> unittestresults.out
+
+	echo "cardtest2.c:" >> unittestresults.out
+	gcc -o cardtest2 -g dominion.o rngs.o cardtest2.c -lm $(CFLAGS)
+	./cardtest2 >> unittestresults.out
+	
+	echo "cardtest3.c:" >> unittestresults.out
+	gcc -o cardtest3 -g dominion.o rngs.o cardtest3.c -lm $(CFLAGS)
+	./cardtest3 >> unittestresults.out
+	
+	echo "cardtest4.c:" >> unittestresults.out
+	gcc -o cardtest4 -g dominion.o rngs.o cardtest4.c -lm $(CFLAGS)
+	./cardtest4 >> unittestresults.out
+	
+	gcov -c -b -f dominion.c >> unittestresults.out
+	cat dominion.c.gcov >> unittestresults.out
+	
 runtests: testDrawCard 
 	./testDrawCard &> unittestresult.out
 	gcov dominion.c >> unittestresult.out
-	cat dominion.c.gcov >> unittestresult.out
 
 
 player: player.c interface.o
@@ -36,4 +72,4 @@ player: player.c interface.o
 all: playdom player 
 
 clean:
-	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe
+	rm -f *.o playdom.exe playdom player cardtest1 cardtest2 cardtest3 cardtest4 unittest1 unittest2 unittest3 unittest4 player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe
